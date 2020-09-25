@@ -6,6 +6,6 @@
     "live-server": "^1.2.0"
   },
   "description": "Dialogflow webhook demonstration",
-  "repository": "https://github.com/satheshrgs/weather_bot/",
+  "repository": "https://github.com/justvarad123/weather2/",
   "keywords": ["dialogflow", "Open Weather Map","pyowm","Weather"]
 }

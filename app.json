@@ -1,5 +1,10 @@
 {
   "name": "Dialogflow weather bot",
+   "version": "1.0.0",
+  "dependencies": {
+    "http-server": "^0.9.0",
+    "live-server": "^1.2.0"
+  },
   "description": "Dialogflow webhook demonstration",
   "repository": "https://github.com/satheshrgs/weather_bot/",
   "keywords": ["dialogflow", "Open Weather Map","pyowm","Weather"]

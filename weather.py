@@ -38,13 +38,13 @@ def weather():
 def webhook():
     req = request.get_json(silent=True, force=True)
 
-    print("Request:")
-    print(json.dumps(req, indent=4))
+    #print("Request:")
+    #print(json.dumps(req, indent=4))
     
     res = processRequest(req)
 
     res = json.dumps(res, indent=4)
-    print(res)
+    #print(res)
     r = make_response(res)
     r.headers['Content-Type'] = 'application/json'
     return r
@@ -52,7 +52,7 @@ def webhook():
 #processing the request from dialogflow
 def processRequest(req):
     
-    result = req.get("result")
+    result = req.get("queryResult")
     parameters = result.get("parameters")
     city = parameters.get("city")
     BASE_URL = "https://api.openweathermap.org/data/2.5/weather?"
@@ -67,6 +67,7 @@ def processRequest(req):
         report = list_of_data['weather']
         # data for variable list_of_data
         temp= list_of_data['main']['temp']- 273.15
+        wt="Nice weather"
         data = {
         "tempe": float("{0:.2f}".format(temp)), 
         "pressure": list_of_data['main']['pressure'], 
@@ -78,7 +79,9 @@ def processRequest(req):
         "source": "weather-details"
         }
     else:
-        print("Error in the HTTP request")
+        return {
+        "displayText": wt }
+        
      
     
 if __name__ == '__main__': 

@@ -34,7 +34,7 @@ def weather():
         print("Error in the HTTP request")
     return render_template('index.html', data = data) 
 
-@app.route('/webhook', methods=['POST'])
+@app.route('/weather-details', methods=['POST'])
 def webhook():
     req = request.get_json(silent=True, force=True)
 
@@ -73,10 +73,13 @@ def processRequest(req):
         "humidity": list_of_data['main']['humidity'],
         "rep": report[0]['description']
         }
-        print(data)
+        return {
+        "displayText": data,
+        "source": "weather-details"
+        }
     else:
         print("Error in the HTTP request")
-    return render_template('index.html', data = data) 
+     
     
 if __name__ == '__main__': 
     app.run(debug = True) 

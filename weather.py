@@ -33,12 +33,7 @@ def processRequest(req):
         pressure=list_of_data['main']['pressure']
         humidity=list_of_data['main']['humidity']
         rep=report[0]['description']
-        data = {
-        "Temperature": float("{0:.2f}".format(temp)),
-        "Pressure": list_of_data['main']['pressure'],
-        "Humidity": list_of_data['main']['humidity'],
-        "Weather Report": report[0]['description']
-        }
+        data="Today's Weather in " + city + ": " + "Temperature: " + str(tempe) + " Celsius."+ " Pressure: " + str(pressure) +"." + " Humidity: " + str(humidity) +"." + " Weather Report: " + rep
     return data
 
 if __name__ == '__main__':

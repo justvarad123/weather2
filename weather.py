@@ -2,28 +2,18 @@ from flask import Flask,request,make_response,render_template
 import os,json
 import requests
 
+app = Flask(__name__) 
 
-app = Flask(__name__)
-#geting and sending response to dialogflow
-
-@app.route('/weather-details', methods=['POST'])
-def webhook():
+@app.route('/weather', methods =['POST', 'GET'])
+def weather():
     req = request.get_json(silent=True, force=True)
-
-    #print("Request:")
-    #print(json.dumps(req, indent=4))
-    
     res = processRequest(req)
-
     res = json.dumps(res, indent=4)
     #print(res)
     r = make_response(res)
     r.headers['Content-Type'] = 'application/json'
     return r
-
-#processing the request from dialogflow
 def processRequest(req):
-    
     result = req.get("queryResult")
     parameters = result.get("parameters")
     city = parameters.get("city")
@@ -34,26 +24,22 @@ def processRequest(req):
     response = requests.get(URL)
     # checking the status code of the request
     if response.status_code == 200:
-        # getting data in the json format
         list_of_data = response.json()
         report = list_of_data['weather']
         # data for variable list_of_data
         temp= list_of_data['main']['temp']- 273.15
         wt="Nice weather"
-        tempe=float("{0:.2f}".format(temp)) 
-        pressure=list_of_data['main']['pressure'] 
+        tempe=float("{0:.2f}".format(temp))
+        pressure=list_of_data['main']['pressure']
         humidity=list_of_data['main']['humidity']
         rep=report[0]['description']
-        data="Today's weather in " + city + ": \n" + "Temperature in Celsius:" + tempe + "\n Pressure:" + pressure + "\n Humidity:" + humidity + "\n Weather Report:" + rep
-        return {
-        "fulfillmentText": data
-        
+        data = {
+        "Temperature": float("{0:.2f}".format(temp)),
+        "Pressure": list_of_data['main']['pressure'],
+        "Humidity": list_of_data['main']['humidity'],
+        "Weather Report": report[0]['description']
         }
-    else:
-        return {
-        "fulfillmentText": wt }
-        
-     
-    
-if __name__ == '__main__': 
+    return data
+
+if __name__ == '__main__':
     app.run(debug = True) 

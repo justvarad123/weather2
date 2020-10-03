@@ -34,7 +34,9 @@ def processRequest(req):
         humidity=list_of_data['main']['humidity']
         rep=report[0]['description']
         data="Today's Weather in " + city + ": " + "Temperature: " + str(tempe) + " Celsius."+ " Pressure: " + str(pressure) +"." + " Humidity: " + str(humidity) +"." + " Weather Report: " + rep
-    return data
+    return {
+            "fulfillmentText": data
+        }
 
 if __name__ == '__main__':
     app.run(debug = True) 
